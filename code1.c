@@ -24,18 +24,18 @@ void findCombinations(int score) {
 int main() {
     int score;
 
-    // Continuously ask for input
+    //continuing to ask for input
     while (1) {
         printf("Enter the NFL score (0 or 1 to STOP): ");
         scanf("%d", &score);
         
-        // Stop the program if the user enters 0 or 1
+        // stop the program if 1 or 0 is input
         if (score <= 1) {
             printf("Exiting the program...\n");
             break;
         }
 
-        // Display possible combinations
+        // display possible combinations
         printf("Possible combinations of scoring plays for a team’s score is %d:\n", score);
         findCombinations(score);
     }
