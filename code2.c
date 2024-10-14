@@ -1,107 +1,90 @@
 #include <stdio.h>
+#define SIZE 5
 
-// function declarations
-float celsius_to_fahrenheit(float celsius);
-float fahrenheit_to_celsius(float fahrenheit);
-float celsius_to_kelvin(float celsius);
-float kelvin_to_celsius(float kelvin);
-float fahrenheit_to_kelvin(float fahrenheit);
-float kelvin_to_fahrenheit(float kelvin);
-void categorize_temperature(float celsius);
+//function declarations
+void addMatrices(int m1[SIZE][SIZE], int m2[SIZE][SIZE], int result[SIZE][SIZE]);
+void multiplyMatrices(int m1[SIZE][SIZE], int m2[SIZE][SIZE], int result[SIZE][SIZE]);
+void transposeMatrix(int matrix[SIZE][SIZE], int result[SIZE][SIZE]);
+void printMatrix(int matrix[SIZE][SIZE]);
 
 int main() {
-    float temp, converted_temp;
-    int input_scale, output_scale;
-    float (*convert_function)(float);  // function pointer for conversion
+    //define two given matrices, m1 and m2
+    int m1[SIZE][SIZE] = {
+        {1, 2, 3, 4, 5},
+        {6, 7, 8, 9, 10},
+        {11, 12, 13, 14, 15},
+        {16, 17, 18, 19, 20},
+        {21, 22, 23, 24, 25}
+    };
 
-    // input temperature value
-    printf("Enter temperature value: ");
-    scanf("%f", &temp);
+    int m2[SIZE][SIZE] = {
+        {25, 24, 23, 22, 21},
+        {20, 19, 18, 17, 16},
+        {15, 14, 13, 12, 11},
+        {10, 9, 8, 7, 6},
+        {5, 4, 3, 2, 1}
+    };
 
-    // input scale
-    printf("Choose the current scale (1) Celsius, (2) Fahrenheit, (3) Kelvin: ");
-    scanf("%d", &input_scale);
+    //matrices store results
+    int sumResult[SIZE][SIZE];
+    int productResult[SIZE][SIZE];
+    int transposeResult[SIZE][SIZE];
 
-    // output scale
-    printf("Convert to (1) Celsius, (2) Fahrenheit, (3) Kelvin: ");
-    scanf("%d", &output_scale);
+    //add
+    printf("Sum of m1 and m2:\n");
+    addMatrices(m1, m2, sumResult);
+    printMatrix(sumResult);
 
-    // choose appropriate conversion function based on input and output scales
-    if (input_scale == 1 && output_scale == 2) {
-        convert_function = celsius_to_fahrenheit;
-    } else if (input_scale == 1 && output_scale == 3) {
-        convert_function = celsius_to_kelvin;
-    } else if (input_scale == 2 && output_scale == 1) {
-        convert_function = fahrenheit_to_celsius;
-    } else if (input_scale == 2 && output_scale == 3) {
-        convert_function = fahrenheit_to_kelvin;
-    } else if (input_scale == 3 && output_scale == 1) {
-        convert_function = kelvin_to_celsius;
-    } else if (input_scale == 3 && output_scale == 2) {
-        convert_function = kelvin_to_fahrenheit;
-    } else {
-        printf("Invalid conversion.\n");
-        return 1;
-    }
+    // mulitply
+    printf("Product of m1 and m2:\n");
+    multiplyMatrices(m1, m2, productResult);
+    printMatrix(productResult);
 
-    // perform conversion using the selected function
-    converted_temp = convert_function(temp);
-    printf("Converted temperature: %.2f\n", converted_temp);
-
-    // convert to Celsius for categorization
-    float temp_in_celsius;
-    if (output_scale == 1) {
-        temp_in_celsius = converted_temp; // already in Celsius
-    } else if (output_scale == 2) {
-        temp_in_celsius = fahrenheit_to_celsius(converted_temp); // Fahrenheit to Celsius
-    } else {
-        temp_in_celsius = kelvin_to_celsius(converted_temp); // Kelvin to Celsius
-    }
-
-    // categorize temp
-    categorize_temperature(temp_in_celsius);
+    //transpose
+    printf("Transpose of m1:\n");
+    transposeMatrix(m1, transposeResult);
+    printMatrix(transposeResult);
 
     return 0;
 }
 
-// performs the temp conversions
-float celsius_to_fahrenheit(float celsius) {
-    return (celsius * 9.0 / 5.0) + 32;
-}
-
-float fahrenheit_to_celsius(float fahrenheit) {
-    return (fahrenheit - 32) * 5.0 / 9.0;
-}
-
-float celsius_to_kelvin(float celsius) {
-    return celsius + 273.15;
-}
-
-float kelvin_to_celsius(float kelvin) {
-    return kelvin - 273.15;
-}
-
-float fahrenheit_to_kelvin(float fahrenheit) {
-    // Fahrenheit to Celsius, then Celsius to Kelvin
-    return celsius_to_kelvin(fahrenheit_to_celsius(fahrenheit));
-}
-
-float kelvin_to_fahrenheit(float kelvin) {
-    // Kelvin to Celsius, then Celsius to Fahrenheit
-    return celsius_to_fahrenheit(kelvin_to_celsius(kelvin));
-}
-
-// prints the categorized temp
-void categorize_temperature(float temp_in_celsius) {
-    if (temp_in_celsius < 0) {
-        printf("Category: Freezing. Advisory: Stay indoors.\n");
-    } else if (temp_in_celsius <= 10) {
-        printf("Category: Cold. Advisory: Wear a jacket.\n");
-    } else if (temp_in_celsius <= 25) {
-        printf("Category: Comfortable. Advisory: It feels nice outside.\n");
-    } else if (temp_in_celsius <= 35) {
-        printf("Category: Hot. Advisory: Stay hydrated.\n");
-    } else {
-        printf("Category: Extreme Heat. Advisory: Stay indoors.\n");
+//function to add 
+void addMatrices(int m1[SIZE][SIZE], int m2[SIZE][SIZE], int result[SIZE][SIZE]) {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            result[i][j] = m1[i][j] + m2[i][j];
+        }
     }
+}
+
+//function to multiply 
+void multiplyMatrices(int m1[SIZE][SIZE], int m2[SIZE][SIZE], int result[SIZE][SIZE]) {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            result[i][j] = 0; //init
+            for (int k = 0; k < SIZE; k++) {
+                result[i][j] += m1[i][k] * m2[k][j];
+            }
+        }
+    }
+}
+
+//function to transpose
+void transposeMatrix(int matrix[SIZE][SIZE], int result[SIZE][SIZE]) {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            result[j][i] = matrix[i][j];
+        }
+    }
+}
+
+//function to print a matrix
+void printMatrix(int matrix[SIZE][SIZE]) {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            printf("%4d ", matrix[i][j]);  //ensures orderly prints
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
