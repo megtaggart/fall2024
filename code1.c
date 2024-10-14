@@ -20,7 +20,7 @@ int main() {
     FILE *file;
     char filename[100];
     
-    //user input
+    //user input (input file path for best results)
     printf("Enter the input file name: ");
     scanf("%s", filename);
     
