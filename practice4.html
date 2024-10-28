@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice 4 - Multiplication Table</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 100px;
+            height: 100px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Practice 4</h1>
+    
+    <form onsubmit="generateTable(); return false;">
+        Size of the multiplication table:
+        <input type="text" id="size" name="size">
+        <br>
+        <input type="submit" value="Generate">
+    </form>
+
+    <div id="tableContainer"></div>
+
+    <script>
+        function generateTable() {
+            // Get the size from input
+            const size = parseInt(document.getElementById("size").value);
+            const tableContainer = document.getElementById("tableContainer");
+            tableContainer.innerHTML = ""; // Clear previous table
+
+            // Create the table element
+            const table = document.createElement("table");
+
+            // Loop to generate rows and cells
+            for (let i = 0; i <= size; i++) {
+                const row = document.createElement("tr");
+                for (let j = 0; j <= size; j++) {
+                    const cell = document.createElement(i === 0 || j === 0 ? "th" : "td");
+
+                    if (i === 0 && j === 0) {
+                        cell.innerText = ""; // Top-left cell empty
+                    } else if (i === 0) {
+                        cell.innerText = j; // Top header row
+                    } else if (j === 0) {
+                        cell.innerText = i; // Left header column
+                    } else {
+                        cell.innerText = i * j; // Multiplication result
+                    }
+
+                    row.appendChild(cell);
+                }
+                table.appendChild(row);
+            }
+
+            // Append the table to the container
+            tableContainer.appendChild(table);
+        }
+    </script>
+</body>
+</html>
+
